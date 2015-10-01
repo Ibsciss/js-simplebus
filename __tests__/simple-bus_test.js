@@ -11,7 +11,8 @@ AddExclamationMarkDistributionCenter.prototype.subscribe = function(eventName, c
 AddExclamationMarkDistributionCenter.prototype.publish = function(eventName, message) {
     this.driver.publish(eventName, message + '!');
 };
-// var MessageDistributionCenter = require('../../lib/message-distribution-center');
+
+var SimpleBus = require('../lib/simple-bus');
 
 
 describe('message-distribution-center', function () {
@@ -19,7 +20,7 @@ describe('message-distribution-center', function () {
   describe('publish', function () {
     it('send events', function () {
         var data = [];
-        eventDispatcher = new MessageDistributionCenter();
+        eventDispatcher = new SimpleBus();
         eventDispatcher.subscribe('root.event', function (msg) {
             data.push(msg);
         });
@@ -30,7 +31,7 @@ describe('message-distribution-center', function () {
 
     it('send event to multiple recipients', function () {
         var data = [];
-        eventDispatcher = new MessageDistributionCenter();
+        eventDispatcher = new SimpleBus();
         eventDispatcher.subscribe('root.event', function (msg) {
             data.push(msg);
         });
@@ -45,7 +46,7 @@ describe('message-distribution-center', function () {
     it('send different events to recipient', function () {
         var dataA = [];
         var dataB = [];
-        eventDispatcher = new MessageDistributionCenter();
+        eventDispatcher = new SimpleBus();
         eventDispatcher.subscribe('root.eventA', function (msg) {
             dataA.push(msg);
         });
@@ -65,7 +66,7 @@ describe('message-distribution-center', function () {
     describe('drivers composition', function () {
         it('use the driver if specified', function () {
             var data = [];
-            eventDispatcher = new MessageDistributionCenter( new AddExclamationMarkDistributionCenter( new MessageDistributionCenter()) );
+            eventDispatcher = new SimpleBus( new AddExclamationMarkDistributionCenter( new SimpleBus()) );
 
             eventDispatcher.subscribe('root.event', function (msg) {
                 data.push(msg);
