@@ -1,14 +1,14 @@
 jest.dontMock('../lib/simple-bus');
 
-function AddExclamationMarkDistributionCenter(driver) {
+function AddExclamationMarkTransformer(driver) {
     this.driver = driver;
 }
 
-AddExclamationMarkDistributionCenter.prototype.subscribe = function(eventName, callback) {
+AddExclamationMarkTransformer.prototype.subscribe = function(eventName, callback) {
     this.driver.subscribe(eventName, callback);
 };
 
-AddExclamationMarkDistributionCenter.prototype.publish = function(eventName, message) {
+AddExclamationMarkTransformer.prototype.publish = function(eventName, message) {
     this.driver.publish(eventName, message + '!');
 };
 
@@ -66,7 +66,7 @@ describe('message-distribution-center', function () {
     describe('drivers composition', function () {
         it('use the driver if specified', function () {
             var data = [];
-            eventDispatcher = new SimpleBus( new AddExclamationMarkDistributionCenter( new SimpleBus()) );
+            eventDispatcher = new SimpleBus( new AddExclamationMarkTransformer( new SimpleBus()) );
 
             eventDispatcher.subscribe('root.event', function (msg) {
                 data.push(msg);
