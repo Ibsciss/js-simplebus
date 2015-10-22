@@ -10,5 +10,8 @@
   "license": "MIT",
   "devDependencies": {
     "jest-cli": "^0.5.5"
+  },
+  "dependencies": {
+    "loglevel": "^1.4.0"
   }
 }

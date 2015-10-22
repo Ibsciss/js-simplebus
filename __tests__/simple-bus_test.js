@@ -1,15 +1,18 @@
 jest.dontMock('../lib/simple-bus');
+jest.dontMock('../lib/simple-event');
+
+var SimpleEvent = require('../lib/simple-event');
 
 function AddExclamationMarkTransformer(driver) {
     this.driver = driver;
 }
 
-AddExclamationMarkTransformer.prototype.subscribe = function(eventName, callback) {
-    this.driver.subscribe(eventName, callback);
+AddExclamationMarkTransformer.prototype.subscribe = function(event, callback) {
+    this.driver.subscribe(event, callback);
 };
 
-AddExclamationMarkTransformer.prototype.publish = function(eventName, message) {
-    this.driver.publish(eventName, message + '!');
+AddExclamationMarkTransformer.prototype.publish = function(event) {
+    this.driver.publish(new SimpleEvent(event.name, event.payload + '!'));
 };
 
 var SimpleBus = require('../lib/simple-bus');
@@ -21,10 +24,10 @@ describe('message-distribution-center', function () {
     it('send events', function () {
         var data = [];
         eventDispatcher = new SimpleBus();
-        eventDispatcher.subscribe('root.event', function (msg) {
-            data.push(msg);
+        eventDispatcher.subscribe(new SimpleEvent('root.event'), function (event) {
+            data.push(event.payload);
         });
-        eventDispatcher.publish('root.event', 'a message');
+        eventDispatcher.publish(new SimpleEvent('root.event', 'a message'));
 
         expect(data).toContain('a message');
     });
@@ -32,13 +35,14 @@ describe('message-distribution-center', function () {
     it('send event to multiple recipients', function () {
         var data = [];
         eventDispatcher = new SimpleBus();
-        eventDispatcher.subscribe('root.event', function (msg) {
-            data.push(msg);
+
+        eventDispatcher.subscribe(new SimpleEvent('root.event'), function (event) {
+            data.push(event.payload);
         });
-        eventDispatcher.subscribe('root.event', function (msg) {
-            data.push(msg + '!');
+        eventDispatcher.subscribe(new SimpleEvent('root.event'), function (event) {
+            data.push(event.payload + '!');
         });
-        eventDispatcher.publish('root.event', 'a message');
+        eventDispatcher.publish(new SimpleEvent('root.event', 'a message'));
 
         expect(data).toContain('a message', 'a message!');
     });
@@ -47,14 +51,14 @@ describe('message-distribution-center', function () {
         var dataA = [];
         var dataB = [];
         eventDispatcher = new SimpleBus();
-        eventDispatcher.subscribe('root.eventA', function (msg) {
-            dataA.push(msg);
+        eventDispatcher.subscribe(new SimpleEvent('root.eventA'), function (event) {
+            dataA.push(event.payload);
+       });
+        eventDispatcher.subscribe(new SimpleEvent('root.eventB'), function (event) {
+            dataB.push(event.payload);
         });
-        eventDispatcher.subscribe('root.eventB', function (msg) {
-            dataB.push(msg);
-        });
-        eventDispatcher.publish('root.eventA', 'a AAA message');
-        eventDispatcher.publish('root.eventB', 'a BBB message');
+        eventDispatcher.publish(new SimpleEvent('root.eventA', 'a AAA message'));
+        eventDispatcher.publish(new SimpleEvent('root.eventB', 'a BBB message'));
 
         expect(dataA).toContain('a AAA message');
         expect(dataA).not.toContain('a BBB message');
@@ -68,10 +72,10 @@ describe('message-distribution-center', function () {
             var data = [];
             eventDispatcher = new SimpleBus( new AddExclamationMarkTransformer( new SimpleBus()) );
 
-            eventDispatcher.subscribe('root.event', function (msg) {
-                data.push(msg);
+            eventDispatcher.subscribe(new SimpleEvent('root.event'), function (event) {
+                data.push(event.payload);
             });
-            eventDispatcher.publish('root.event', 'a message');
+            eventDispatcher.publish(new SimpleEvent('root.event', 'a message'));
 
             expect(data).toContain('a message!');
         });
