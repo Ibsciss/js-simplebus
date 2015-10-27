@@ -29,7 +29,7 @@ describe('Logger', function () {
         eventDispatcher.publish(new SimpleEvent('root.event', 'a first message to log'));
         eventDispatcher.publish(new SimpleEvent('root.event', 'a second message to log'));
         expect(log.info).toBeCalled();
-        expect(log.info.mock.calls.length).toBe(4);
+        expect(log.info.mock.calls.length).toBe(3);
     });
 
     it('logs events with timestamps', function () {
@@ -45,10 +45,12 @@ describe('Logger', function () {
         eventDispatcher.subscribe(new SimpleEvent('root.event'), function () {});
         eventDispatcher.publish(new SimpleEvent('root.event', 'a first message to log'));
 
-        expect(log.info.mock.calls[0][0].publishing).toBeTruthy();
-        expect(log.info.mock.calls[0][0].subscribing).toBeFalsy();
-        expect(log.info.mock.calls[1][0].publishing).toBeFalsy();
-        expect(log.info.mock.calls[1][0].subscribing).toBeTruthy();
+        // Subscribing first
+        expect(log.info.mock.calls[1][0].publishing).toBeTruthy();
+        expect(log.info.mock.calls[1][0].subscribing).toBeFalsy();
+        // Publishing second
+        expect(log.info.mock.calls[0][0].publishing).toBeFalsy();
+        expect(log.info.mock.calls[0][0].subscribing).toBeTruthy();
     });
 
 });
