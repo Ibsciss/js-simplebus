@@ -6,12 +6,24 @@
   "scripts": {
     "test": "jest"
   },
-  "author": "Arnaud Lemaire & Benjamin Menant",
+  "repository": {
+     "type": "git",
+     "url": "https://github.com/Ibsciss/js-simplebus"
+  },
+  "contributors":[
+    {
+        "name" : "Benjamin Menant",
+        "email" : "benjamin.menant@gmail.com"
+    },
+    {
+      "name" : "Arnaud LEMAIRE",
+      "email" : "alemaire@quantis.fr",
+      "url" : "www.ibsciss.com"
+    }
+  ],
   "license": "MIT",
   "devDependencies": {
-    "jest-cli": "^0.5.5"
-  },
-  "dependencies": {
+    "jest-cli": "^0.5.5",
     "loglevel": "^1.4.0"
   }
 }
