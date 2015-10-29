@@ -16,7 +16,12 @@ ChromiumBus.prototype.publish = function publish(event) {
 
     function executeOnCurrentTab(executor) {
         if (chrome.tabs) {
-            chrome.tabs.query({ active: true, currentWindow: true, typeWindow: 'normal' }, function getCurrentTabId(currentTabs) {
+            chrome.tabs.query({
+                active: true,
+                currentWindow: true,
+                windowType: 'normal'
+            },
+            function getCurrentTabId(currentTabs) {
                 if (currentTabs[0]) executor(currentTabs[0]);
             });
         }
