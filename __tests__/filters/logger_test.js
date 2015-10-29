@@ -1,11 +1,11 @@
-jest.dontMock('../../lib/simple-bus');
-jest.dontMock('../../lib/simple-event');
-jest.dontMock('../../lib/filters/logger');
+jest.dontMock('../../simple-bus');
+jest.dontMock('../../simple-event');
+jest.dontMock('../../filters/logger');
 
 var log = require('loglevel');
-var SimpleBus = require('../../lib/simple-bus');
-var SimpleEvent = require('../../lib/simple-event');
-var Logger = require('../../lib/filters/logger');
+var SimpleBus = require('../../simple-bus');
+var SimpleEvent = require('../../simple-event');
+var Logger = require('../../filters/logger');
 
 describe('Logger', function () {
 

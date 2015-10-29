@@ -1,7 +1,7 @@
-jest.dontMock('../lib/simple-bus');
-jest.dontMock('../lib/simple-event');
+jest.dontMock('../simple-bus');
+jest.dontMock('../simple-event');
 
-var SimpleEvent = require('../lib/simple-event');
+var SimpleEvent = require('../simple-event');
 
 function AddExclamationMarkTransformer(driver) {
     this.driver = driver;
@@ -15,7 +15,7 @@ AddExclamationMarkTransformer.prototype.publish = function(event) {
     this.driver.publish(new SimpleEvent(event.name, event.payload + '!'));
 };
 
-var SimpleBus = require('../lib/simple-bus');
+var SimpleBus = require('../simple-bus');
 
 
 describe('message-distribution-center', function () {

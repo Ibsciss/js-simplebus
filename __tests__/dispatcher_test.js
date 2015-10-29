@@ -1,10 +1,10 @@
-jest.dontMock('../lib/dispatcher');
-jest.dontMock('../lib/simple-bus');
-jest.dontMock('../lib/simple-event');
+jest.dontMock('../dispatcher');
+jest.dontMock('../simple-bus');
+jest.dontMock('../simple-event');
 
-var SimpleBus = require('../lib/simple-bus');
-var SimpleEvent = require('../lib/simple-event');
-var Dispatcher = require('../lib/dispatcher');
+var SimpleBus = require('../simple-bus');
+var SimpleEvent = require('../simple-event');
+var Dispatcher = require('../dispatcher');
 
 describe('dispatcher', function() {
     var Driver = function(){};
