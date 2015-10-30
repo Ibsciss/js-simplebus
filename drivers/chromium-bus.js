@@ -23,7 +23,7 @@ ChromiumBus.prototype.publish = function publish(event) {
     chrome.runtime.sendMessage(event);
 
     executeOnCurrentTab(function sendToCurrentTab(currentTab) {
-        chrome.runtime.sendMessage(currentTab.id, event);
+        chrome.tabs.sendMessage(currentTab.id, event);
     });
 };
 
