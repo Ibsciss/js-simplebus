@@ -15,9 +15,11 @@ ChromiumBus.prototype.subscribe = function subscribe(event, callback) {
 ChromiumBus.prototype.publish = function publish(event) {
 
     function executeOnCurrentTab(executor) {
-        chrome.tabs.query({ active: true, currentWindow: true, typeWindow: 'normal' }, function getCurrentTabId(currentTab) {
-            executor(currentTab);
-        });
+        if (chrome.tabs) {
+            chrome.tabs.query({ active: true, currentWindow: true, typeWindow: 'normal' }, function getCurrentTabId(currentTabs) {
+                if (currentTabs[0]) executor(currentTabs[0]);
+            });
+        }
     }
 
     chrome.runtime.sendMessage(event);
